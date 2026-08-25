@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const dns = require("dns");
 
 const connectDB = async () => {
-    const dnsServers = (process.env.MONGO_DNS_SERVERS || "")
+    const dnsServers = (process.env.MONGO_DNS_SERVERS || "8.8.8.8,8.8.4.4")
         .split(",")
         .map((server) => server.trim())
         .filter(Boolean);

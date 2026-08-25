@@ -18,3 +18,10 @@ const start = async () => {
 };
 
 start();
+console.log("Register page is on http://localhost:3000/api/v1/auth/register");
+console.log("Login page is on http://localhost:3000/api/v1/auth/login");
+console.log("Logout page is on http://localhost:3000/api/v1/auth/logout");
+console.log("Change password page is on http://localhost:3000/api/v1/auth/change-password");
+console.log("Health check is on http://localhost:3000/api/v1/health");
+console.log("API is running on http://localhost:3000");
+

@@ -77,9 +77,23 @@ const refreshAccessToken = async (refreshToken) => {
     }
 };
 
+const changePassword = async (user, oldPassword, newPassword) => {
+    const userWithPassword = await User.findById(user._id).select('+password');
+    const isPasswordValid = await bcrypt.compare(oldPassword, userWithPassword.password);
+    if (!isPasswordValid) {
+        throw apiError(401, 'Invalid password');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    userWithPassword.password = hashedPassword;
+    await userWithPassword.save();
+    return userWithPassword;
+};
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
-    refreshAccessToken
+    refreshAccessToken,
+    changePassword
 };

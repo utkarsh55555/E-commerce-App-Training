@@ -19,8 +19,25 @@ const logoutController = asyncHandler(async (req, res) => {
     res.status(200).json(apiResponse(200, null, "User logged out successfully"));
 }); 
 
+const changePasswordController = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword } = req.body;
+    await Authservice.changePassword(req.user, oldPassword, newPassword);
+    res.status(200).json(apiResponse(200, null, "Password changed successfully"));
+});
+
+const refreshController = asyncHandler(async (req,res)=>{
+    const refreshToken = req.cookies.refreshToken;
+    if(!refreshToken){
+        return res.status(401).json(apiResponse(401, null, "Refresh token not found"));
+    }
+    const token = await Authservice.refreshToken(refreshToken);
+    res.status(200).json(apiResponse(200, { token }, "Token refreshed successfully"));
+})
+
 module.exports = {
     registerController,
     loginController,
-    logoutController
+    logoutController,
+    changePasswordController,
+    refreshController
 };

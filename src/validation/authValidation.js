@@ -53,5 +53,3 @@ module.exports = {
 	validateRegister,
 	validateLogin
 };
-
-module.exports = { validateRegister, validateLogin };
