@@ -1,17 +1,19 @@
 {
   "name": "e-commerce-project",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "E-commerce backend API",
+  "main": "Server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node Server.js"
+    "start": "node Server.js",
+    "dev": "nodemon Server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
@@ -20,6 +22,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^8.6.2",
     "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.9.3",
     "morgan": "^1.11.0",
     "nodemon": "^3.1.14"

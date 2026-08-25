@@ -1,4 +1,4 @@
-const Authservice = require('../services/authService');
+const Authservice = require('../Services/authService');
 const asyncHandler = require('../utils/asyncHandler');
 const apiResponse = require('../utils/apiResponse');
 

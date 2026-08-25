@@ -4,7 +4,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phonePattern = /^\+?[0-9 ()-]{7,20}$/;
 
 const validateRegister = (req, res, next) => {
-	const { name, email, password, phone } = req.body || {};
+	const { name, email, password, phone, role } = req.body || {};
 	const errors = {};
 
 	if (typeof name !== "string" || name.trim().length < 2 || name.trim().length > 50) {
@@ -47,6 +47,11 @@ const validateLogin = (req, res, next) => {
 
 	req.body.email = email.trim().toLowerCase();
 	return next();
+};
+
+module.exports = {
+	validateRegister,
+	validateLogin
 };
 
 module.exports = { validateRegister, validateLogin };
