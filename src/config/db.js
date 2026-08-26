@@ -1,20 +1,10 @@
 const mongoose = require("mongoose");
+
 const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const connectDB = async () => {
-    const dnsServers = (process.env.MONGO_DNS_SERVERS || "8.8.8.8,8.8.4.4")
-        .split(",")
-        .map((server) => server.trim())
-        .filter(Boolean);
-
-    if (dnsServers.length > 0) {
-        dns.setServers(dnsServers);
-    }
-
-    await mongoose.connect(process.env.MONGO_URI, {
-        serverSelectionTimeoutMS: 10000
-    });
-
+    const connection = await mongoose.connect(process.env.MONGO_URI);
     console.log("Database connection established");
 };
 

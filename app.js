@@ -14,6 +14,7 @@ require("dotenv").config();
 const app = express();
 
 const authRoutes = require("./src/routes/authRoutes");
+const userRoutes = require("./src/routes/userRoutes");
 
 app.use(express.json());
 app.use(helmet());
@@ -41,6 +42,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/user", userRoutes);
 
 app.use((req, res) => {
     res.status(404).json(apiResponse(404, null, "Route not found"));
