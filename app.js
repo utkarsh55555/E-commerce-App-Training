@@ -15,6 +15,9 @@ const app = express();
 
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const categoryRoutes = require("./src/modules/category/category.routes");
+const brandRoutes = require("./src/modules/brand/brand.routes");
+const productRoutes = require("./src/modules/product/product.routes");
 
 app.use(express.json());
 app.use(helmet());
@@ -43,6 +46,9 @@ app.get("/api/v1/health", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/brands", brandRoutes);
+app.use("/api/v1/products", productRoutes);
 
 app.use((req, res) => {
     res.status(404).json(apiResponse(404, null, "Route not found"));

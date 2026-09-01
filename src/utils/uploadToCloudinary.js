@@ -9,15 +9,16 @@ const uploadToCloudinary = async (file, folder = 'ecommerce') => {
         });
         return {
             url: result.secure_url,
-            public_id: result.public_id
+            publicId: result.public_id
         };
     } catch (error) {
         throw apiError(500, `Image upload failed: ${error.message}`);
     }
 };
 
-const deleteFromCloudinary = async (publicId) => {
+const destroyFromCloudinary = async (publicId) => {
     try {
+        if (!publicId) return true;
         await cloudinary.uploader.destroy(publicId);
         return true;
     } catch (error) {
@@ -27,5 +28,5 @@ const deleteFromCloudinary = async (publicId) => {
 
 module.exports = {
     uploadToCloudinary,
-    deleteFromCloudinary
+    destroyFromCloudinary
 };

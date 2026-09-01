@@ -1,38 +1,65 @@
-const userService = require('../Services/userService');
+const userService = require('../modules/user/userService');
 const asyncHandler = require('../utils/asyncHandler');
 const apiResponse = require('../utils/apiResponse');
+const { OK, CREATED, UNAUTHORIZED } = require('../utils/httpStatus');
 
 const getUserProfileController = asyncHandler(async (req, res) => {
-    const user = await userService.getUserProfile(req.userId);
-    res.status(200).json(apiResponse(200, user, 'User profile retrieved successfully'));
+    const userData = await userService.getUserProfile(req.user._id);
+    res.status(OK).json(apiResponse(OK, userData, "data fetch successfully"));
 });
 
 const updateUserProfileController = asyncHandler(async (req, res) => {
-    const user = await userService.updateUserProfile(req.userId, req.body);
-    res.status(200).json(apiResponse(200, user, 'User profile updated successfully'));
+    const id = req.user._id;
+    const data = req.body;
+    const image = req.file;
+
+    let allowed = ["name", "phone"];
+    if (req.user.role === "seller") {
+        allowed.push("shopName");
+    }
+    const invalidFields = Object.keys(data).filter(
+        (key) => !allowed.includes(key),
+    );
+    if (invalidFields.length > 0) {
+        return res.status(UNAUTHORIZED).json(apiResponse(UNAUTHORIZED, null, `You are unauthorized to update: ${invalidFields.join(", ")}`));
+    }
+
+    const result = await userService.updateUserProfile(id, data, image);
+    res.status(OK).json(apiResponse(OK, result, "Profile updated successfully"));
 });
 
-const addAddressController = asyncHandler(async (req, res) => {
-    const user = await userService.addAddress(req.userId, req.body);
-    res.status(201).json(apiResponse(201, user, 'Address added successfully'));
+const getAllAddressesController = asyncHandler(async (req, res) => {
+    const addresses = await userService.getAllAddress(req.user._id);
+    res.status(OK).json(apiResponse(OK, addresses, "fetch all user addresses"));
+});
+
+const createAddressController = asyncHandler(async (req, res) => {
+    const id = req.user._id;
+    const data = req.body;
+    const result = await userService.addAddress(id, data);
+    res.status(OK).json(apiResponse(OK, result, "address created successfully"));
 });
 
 const updateAddressController = asyncHandler(async (req, res) => {
-    const { addressId } = req.params;
-    const user = await userService.updateAddress(req.userId, addressId, req.body);
-    res.status(200).json(apiResponse(200, user, 'Address updated successfully'));
+    const userId = req.user._id;
+    const addressId = req.params.addrId;
+    const patch = req.body;
+    const result = await userService.updateAddress(userId, addressId, patch);
+    res.status(OK).json(apiResponse(OK, result, "address updated successfully"));
 });
 
 const deleteAddressController = asyncHandler(async (req, res) => {
-    const { addressId } = req.params;
-    const user = await userService.deleteAddress(req.userId, addressId);
-    res.status(200).json(apiResponse(200, user, 'Address deleted successfully'));
+    const userId = req.user._id;
+    const addressId = req.params.addrId;
+    const result = await userService.deleteAddress(userId, addressId);
+    res.status(OK).json(apiResponse(OK, result, "address deleted successfully"));
 });
 
 module.exports = {
     getUserProfileController,
     updateUserProfileController,
-    addAddressController,
+    getAllAddressesController,
+    createAddressController,
     updateAddressController,
-    deleteAddressController
+    deleteAddressController,
 };

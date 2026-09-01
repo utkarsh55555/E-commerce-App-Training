@@ -1,5 +1,5 @@
 const multer = require('multer');
-const { uploadToCloudinary } = require('../utils/cloudinaryUpload');
+const { uploadToCloudinary, deleteFromCloudinary } = require('../utils/cloudinaryUpload');
 const apiError = require('../utils/apiError');
 
 const storage = multer.memoryStorage();
@@ -81,5 +81,6 @@ const uploadMultiple = (fieldName, maxCount = 5) => {
 module.exports = {
     upload,
     uploadSingle,
-    uploadMultiple
+    uploadMultiple,
+    deleteFromCloudinary
 };

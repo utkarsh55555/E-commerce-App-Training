@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/userSchema');
-const { signAccessToken, signRefreshToken } = require('../utils/token');
-const apiError = require('../utils/apiError');
+const User = require('../../models/userSchema');
+const { signAccessToken, signRefreshToken } = require('../../utils/token');
+const apiError = require('../../utils/apiError');
 
 const registerUser = async (userData) => {
     const { name, email, password, phone, role } = userData;
@@ -60,7 +60,7 @@ const logoutUser = async (userId) => {
 };
 
 const refreshAccessToken = async (refreshToken) => {
-    const { verifyRefreshToken } = require('../utils/token');
+    const { verifyRefreshToken } = require('../../utils/token');
     
     try {
         const decoded = await verifyRefreshToken(refreshToken);
